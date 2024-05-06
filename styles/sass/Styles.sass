@@ -1,0 +1,64 @@
+// Variables
+$font-family: Arial, sans-serif
+$primary-color: navy
+$accent-color: #4CAF50
+$background-color: #f0f0f0
+$border-radius: 5px
+$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+
+.body 
+  font-family: $font-family
+  margin: 20px
+  background-color: $background-color
+
+
+h1 
+  text-align: center
+  color: $primary-color
+
+#upload-form
+  max-width: 400px  // Ajusta el ancho máximo según tus necesidades
+  margin: 0 auto  // Centra el formulario horizontalmente
+  padding: 20px
+  border: 1px solid #ccc
+  border-radius: 5px
+
+// Estilos para los elementos del formulario
+label
+  display: block  // Muestra cada etiqueta en una línea nueva
+  margin-bottom: 10px  // Espacio entre etiquetas
+
+input[type='file'], select
+  width: 100%  // Ocupa todo el ancho disponible
+  padding: 8px  // Espacio interno
+  margin-bottom: 15px  // Espacio entre elementos
+  border: 1px solid #ccc
+  border-radius: 4rem
+  box-sizing: border-box  // Incluye el padding y el borde en el ancho total
+  cursor: pointer  // Cambia el cursor al pasar sobre él
+  background-color: #f0f0f0  // Color de fondo
+  color: #333  // Color del texto
+  font-size: 16px  // Tamaño de fuente
+  font-family: Arial, sans-serif  // Familia de fuente
+
+button[type='submit']
+  background-color: #4CAF50  // Color de fondo
+  color: white  // Color del texto
+  padding: 10px 20px  // Espacio interno
+  border: none
+  border-radius: 4px
+  cursor: pointer
+
+  &:hover
+    background-color: #45a049  // Color de fondo al pasar el ratón
+
+// Estilos específicos para el select
+select
+  height: 38px  // Altura del select
+
+  // Estilos para las opciones del select
+  option
+    padding: 5px
+
+
+
