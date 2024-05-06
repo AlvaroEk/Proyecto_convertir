@@ -1,0 +1,21 @@
+{
+  "name": "proyecto_convertir",
+  "version": "1.0.0",
+  "description": "proyecto",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass styles/sass/Styles.sass:public/css/CSS.css",
+    "sass-watch": "sass --watch styles/sass/Styles.sass:public/css/CSS.css",
+    "start": "npm rum sass && nodemon server.js"
+  },
+  "author": "Alvaro Lugo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "pug": "^3.0.2",
+    "sass": "^1.76.0",
+    "sharp": "^0.33.3",
+    "svgexport": "^0.4.2"
+  }
+}
