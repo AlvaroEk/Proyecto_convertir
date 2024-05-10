@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 extends layout
 
 block content
@@ -19,25 +18,3 @@ block content
     button(type='submit', class='form-button') Convertir imagen
 
 
-=======
-extends layout
-
-block content
-  .general-contenedor
-    h1 #{title}
-  .container
-  form#upload-form(action='/convertir', method='POST', enctype='multipart/form-data')
-    label(for='seleccionarImg' class='form-label') Seleccionar imagen:
-    input(type='file', name='seleccionarImg', class='form-input')
-    label(for='opciones' class='form-label') Seleccionar formato:
-      select(name='opciones', id='opciones', class='form-select')
-        option(value="seleccionar" selected) seleccionar formato 
-        option(value='PNG') PNG
-        option(value='JPG') JPG
-        option(value='JPEG') JPEG
-        option(value='SVG') SVG
-        option(value='WEBP') WEBP
-    button(type='submit', class='form-button') Convertir imagen
-
-
->>>>>>> e2fcdc8764734a99a89386579c7668e3b207e8ab
