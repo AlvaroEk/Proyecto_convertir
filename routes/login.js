@@ -1,19 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const loginController = require('../controllers/loginController');
+const authMiddleware = require('../middlewares/authMiddleware.js')
 
 // Ruta para mostrar el formulario de login
 router.get('/', (req, res) => {
   res.render('login', { title: 'Iniciar sesión' });
 });
 
-// Ruta para manejar el inicio de sesión (POST)
+
 router.post('/', passport.authenticate('local', {
   failureRedirect: '/login',
   failureFlash: true
 }), (req, res) => {
-  // Si se autentica correctamente, puedes agregar el código aquí para manejar la respuesta
+  // Si se autentica correctamente, crea un token JWT
+  const token = authMiddleware.generateToken(req.user.id);
+
+  res.cookie('token', token, { httpOnly: true, secure: true });
+
+  res.redirect('/');
 });
 
 module.exports = router;
