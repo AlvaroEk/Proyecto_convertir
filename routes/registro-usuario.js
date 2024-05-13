@@ -1,7 +1,7 @@
 // routes/registrar-usuario.js
 const express = require('express');
 const router = express.Router();
-const db = require('../db'); // Reemplaza esto con la ruta correcta a tu archivo db.js
+const db = require('../db');
 
 // Ruta para manejar el registro de usuarios
 router.post('/', (req, res) => {
