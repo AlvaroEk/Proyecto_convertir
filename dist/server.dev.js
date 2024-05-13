@@ -4,103 +4,144 @@ var express = require('express');
 
 var app = express();
 
+var session = require('express-session');
+
 var path = require('path');
 
-var multer = require('multer');
-
-var router = require('./routes/routes'); // Importa el enrutador
-
-
-var conversionController = require('./controllers/conversionController'); // Importar el controlador de conversión
-
-
-var session = require('express-session');
+var router = require('./routes/routes');
 
 var flash = require('connect-flash');
 
-var passport = require('passport');
+var conversionController = require('./controllers/conversionController');
 
 var LocalStrategy = require('passport-local').Strategy;
 
-var SQLiteStore = require('connect-sqlite3')(session);
+var usuarios = require('./models/usermodel');
 
-var db = require('./db');
+var multer = require('multer');
 
 var dotenv = require('dotenv');
 
-var cookieParser = require('cookie-parser'); //Configura Cookie Parser
+var MySQLStore = require('express-mysql-session')(session);
+
+var cookieParser = require('cookie-parser');
+
+var passport = require('passport');
+
+var authMiddleware = require('./middlewares/authMiddleware'); // Middleware para procesar archivos estáticos en la carpeta 'public'
 
 
-app.use(cookieParser());
-dotenv.config(); // Configurar middleware para manejar sesiones
+app.use(express["static"]('public'));
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
+var sessionStore = new MySQLStore({
+  host: process.env.MYSQL_HOST,
+  port: process.env.MYSQL_PORT,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE
+}); // Middleware para procesar cookies
+
+app.use(cookieParser()); // Configurar middleware para manejar sesiones
 
 app.use(session({
   secret: process.env.ACCESS_TOKEN_SECRET,
-  // Clave secreta para firmar la cookie de sesión
   resave: false,
   saveUninitialized: false,
-  store: new SQLiteStore({
-    db: 'sessionsDB.sqlite',
-    table: 'sessions'
-  }) // Almacena las sesiones en una base de datos SQLite
-
-})); // Configura connect-flash
-
-app.use(flash()); // Configurar Passport.js
-
+  store: sessionStore
+}));
 app.use(passport.initialize());
-app.use(passport.session()); // Configurar estrategia de autenticación local
+app.use(passport.session());
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Algo salió mal');
+}); // --------------------------------------------------------------------
+// Passport.js
+// Configurar estrategia de autenticación local
 
-passport.use(new LocalStrategy(function (username, password, done) {
-  db.obtenerUsuarioPorNombre(username, function (err, user) {
-    if (err) {
-      return done(err);
+passport.use(new LocalStrategy(function _callee(username, password, done) {
+  var user, passwordMatch;
+  return regeneratorRuntime.async(function _callee$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.prev = 0;
+          _context.next = 3;
+          return regeneratorRuntime.awrap(usuarios.obtenerPorNombre(username));
+
+        case 3:
+          user = _context.sent;
+
+          if (user) {
+            _context.next = 6;
+            break;
+          }
+
+          return _context.abrupt("return", done(null, false, {
+            message: 'Usuario incorrecto.'
+          }));
+
+        case 6:
+          _context.next = 8;
+          return regeneratorRuntime.awrap(authMiddleware.comparePassword(password, user.contraseña));
+
+        case 8:
+          passwordMatch = _context.sent;
+
+          if (passwordMatch) {
+            _context.next = 11;
+            break;
+          }
+
+          return _context.abrupt("return", done(null, false, {
+            message: 'Contraseña incorrecta.'
+          }));
+
+        case 11:
+          return _context.abrupt("return", done(null, user));
+
+        case 14:
+          _context.prev = 14;
+          _context.t0 = _context["catch"](0);
+          return _context.abrupt("return", done(_context.t0));
+
+        case 17:
+        case "end":
+          return _context.stop();
+      }
     }
-
-    if (!user) {
-      return done(null, false, {
-        message: 'Usuario incorrecto.'
-      });
-    }
-
-    if (user.password !== password) {
-      return done(null, false, {
-        message: 'Contraseña incorrecta.'
-      });
-    }
-
-    return done(null, user);
-  });
+  }, null, null, [[0, 14]]);
 }));
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
-passport.deserializeUser(function (id, done) {
-  db.getUserById(id, function (err, user) {
-    done(err, user);
+passport.deserializeUser(function _callee2(id, done) {
+  return regeneratorRuntime.async(function _callee2$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          _context2.next = 2;
+          return regeneratorRuntime.awrap(usuarios.obtenerPorId(id).then(function (user) {
+            done(null, user);
+          })["catch"](function (error) {
+            done(error, null);
+          }));
+
+        case 2:
+        case "end":
+          return _context2.stop();
+      }
+    }
   });
-});
-app.use(function (req, res, next) {
-  res.locals.carrito = req.session.carrito || [];
-  console.log("Solicitud recibida: ".concat(req.method, " ").concat(req.url));
-  next();
-});
-app.use(function (err, req, res, next) {
-  console.error(err.stack);
-  res.status(500).send('Algo salió mal');
-});
-app.use(express.urlencoded({
-  extended: true
-})); // Configura el motor de vistas
+}); // --------------------------------------------------------------------
+// Rutas para las páginas
+
+app.use('/', router); // Configuración del motor de plantillas Pug
 
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views')); // Middleware para procesar archivos estáticos en la carpeta 'public'
-
-app.use(express["static"]('public'));
-app.use(express.json());
-app.use('/', router); // Ruta para los estilos
-
-app.use(express["static"]('public')); // Configurar Multer para manejar la carga de archivos en memoria
+app.set('views', path.join(__dirname, 'views')); // Configurar Multer para manejar la carga de archivos en memoria
 
 var storage = multer.memoryStorage();
 var upload = multer({
@@ -109,7 +150,7 @@ var upload = multer({
 
 app.use(upload.single('seleccionarImg')); // Ruta para manejar la solicitud POST del formulario de carga
 
-app.post('/convertir', conversionController.convertirImagen); // Puerto del servidor
+app.post('/convertir', conversionController.convertirImagen); // Puerto en el que escucha el servidor
 
 var port = 3000;
 app.listen(port, function () {

@@ -2,13 +2,14 @@
 
 var sharp = require('sharp');
 
-var _require = require('@svgdotjs/svg.js'),
-    create = _require.create; // Importa 'create' desde svg.js
+var potrace = require('potrace');
 
+var _require = require('../models/historymodel'),
+    insertarRegistro = _require.insertarRegistro;
 
-exports.convertirImagen = function _callee(req, res) {
-  var imagenConvertida, formatoDestino, opciones, canvas, imageData;
-  return regeneratorRuntime.async(function _callee$(_context) {
+function convertirImagen(req, res) {
+  var formatoDestino, opciones, buffer;
+  return regeneratorRuntime.async(function convertirImagen$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -22,7 +23,7 @@ exports.convertirImagen = function _callee(req, res) {
           return _context.abrupt("return", res.status(400).send('No se ha proporcionado ningún archivo'));
 
         case 3:
-          formatoDestino = 'PNG'; // Predeterminado a PNG
+          formatoDestino = 'png'; // Predeterminado a PNG
 
           if (req.body.opciones) {
             opciones = req.body.opciones.toUpperCase();
@@ -31,61 +32,79 @@ exports.convertirImagen = function _callee(req, res) {
               formatoDestino = 'jpeg';
             } else if (opciones === 'JPG') {
               formatoDestino = 'jpg';
+            } else if (opciones === 'SVG' || opciones === 'PNG' || opciones === 'WEBP') {
+              formatoDestino = opciones.toLowerCase();
             }
-          }
+          } // Convertir la imagen a formato destino
 
-          if (!(req.body.opciones === 'SVG')) {
-            _context.next = 15;
+
+          if (!(formatoDestino === 'svg')) {
+            _context.next = 14;
             break;
           }
 
-          // Crea un lienzo SVG
-          canvas = create().size(500, 500); // Agrega la imagen al lienzo SVG
-
-          _context.next = 9;
+          _context.next = 8;
           return regeneratorRuntime.awrap(sharp(req.file.buffer).toBuffer());
 
-        case 9:
-          imageData = _context.sent;
-          canvas.image(imageData).size(500, 500); // Obtén el SVG como una cadena
+        case 8:
+          buffer = _context.sent;
+          _context.next = 11;
+          return regeneratorRuntime.awrap(new Promise(function (resolve, reject) {
+            potrace.trace(buffer, {
+              threshold: 128
+            }, function (err, svg) {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(svg);
+              }
+            });
+          }));
 
-          imagenConvertida = canvas.svg(); // Configura el encabezado Content-Type para la respuesta
-
-          res.set('Content-Type', 'image/svg+xml');
-          _context.next = 19;
+        case 11:
+          buffer = _context.sent;
+          _context.next = 17;
           break;
 
-        case 15:
-          _context.next = 17;
+        case 14:
+          _context.next = 16;
           return regeneratorRuntime.awrap(sharp(req.file.buffer).toFormat(formatoDestino).toBuffer());
 
+        case 16:
+          buffer = _context.sent;
+
         case 17:
-          imagenConvertida = _context.sent;
+          _context.next = 19;
+          return regeneratorRuntime.awrap(insertarRegistro(req.file.originalname, "imagen_convertida.".concat(formatoDestino), formatoDestino));
+
+        case 19:
           // Configurar el encabezado Content-Disposition para que el navegador descargue la imagen
           res.set({
             'Content-Type': "image/".concat(formatoDestino),
-            // Tipo de contenido de salida: PNG o JPEG
+            // Tipo de contenido de salida: PNG, JPEG, SVG, WEBP
             'Content-Disposition': "attachment; filename=\"imagen_convertida.".concat(formatoDestino, "\"") // Nombre del archivo a descargar
 
-          });
+          }); // Enviar la imagen convertida al cliente
 
-        case 19:
-          // Enviar la imagen convertida al cliente
-          res.send(imagenConvertida);
-          _context.next = 26;
+          res.send(buffer);
+          _context.next = 27;
           break;
 
-        case 22:
-          _context.prev = 22;
+        case 23:
+          _context.prev = 23;
           _context.t0 = _context["catch"](0);
           console.error('Error al convertir la imagen:', _context.t0);
           res.status(500).send('Error interno del servidor');
 
-        case 26:
+        case 27:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 22]]);
+  }, null, null, [[0, 23]]);
+}
+
+module.exports = {
+  convertirImagen: convertirImagen
 };
 //# sourceMappingURL=conversionController.dev.js.map
