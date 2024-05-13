@@ -2,14 +2,14 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const multer = require('multer');
-const router = require('./routes/routes');// Importa el enrutador
-const conversionController = require('./controllers/conversionController');// Importar el controlador de conversión
+const router = require('./routes/routes'); // Importa el enrutador
+const conversionController = require('./controllers/conversionController'); // Importar el controlador de conversión
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const SQLiteStore = require('connect-sqlite3')(session);
-const db = require('./db')
+const db = require('./db');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 
@@ -51,7 +51,9 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   db.getUserById(id, (err, user) => {
-    done(err, user);
+    if (err) { return done(err); }
+    if (!user) { return done(null, false); }
+    return done(null, user);
   });
 });
 
