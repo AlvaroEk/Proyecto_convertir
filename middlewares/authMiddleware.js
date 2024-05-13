@@ -1,12 +1,20 @@
 // authMiddleware.js
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
+const path = require('path');
 
-function authenticate(req, res, next) {
+
+//Configura DotEnv
+dotenv.config();
+
+async function authenticate(req, res, next) {
     // Verifica si hay un token en las cookies de la solicitud
     const token = req.cookies.token;
 
     // Si no hay token, redirige al usuario al login
     if (!token) {
+        console.log("no hay token")
         return res.redirect('/login');
     }
 
@@ -16,10 +24,11 @@ function authenticate(req, res, next) {
 
         // Almacena el ID del usuario en la solicitud para su posterior uso
         req.userId = decoded.userId;
+        console.log("token y decoded y userID\n",token, decoded, userId)
 
-        next();
     } catch (err) {
         // Si hay un error en la verificación del token, redirige al usuario al login
+        console.log("hay un problema con el login xd")
         return res.redirect('/login');
     }
 }
@@ -30,7 +39,25 @@ function generateToken(userId) {
     return jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 }
 
+async function getHash(passwordString) {
+    const saltRounds = parseInt(process.env.PASSWORD_SALT_ROUNDS);
+    const password_hash = await bcrypt.hash(passwordString, saltRounds);
+    return password_hash;
+}
+
+
+
+async function comparePassword(passwordString, bdHash) {
+    console.log('passwordString',passwordString)
+    console.log('bdHash',bdHash)
+    const compareHashes = await bcrypt.compare(passwordString, bdHash);
+    return compareHashes;   
+}
+
+
 module.exports = {
     authenticate,
-    generateToken
+    generateToken,
+    getHash,
+    comparePassword
 };

@@ -9,9 +9,10 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var _require = require('../date_base/conexion'),
-    obtenerConexion = _require.obtenerConexion;
+    obtenerConexion = _require.obtenerConexion; // Función para insertar un nuevo usuario en la base de datos MySQL usando la pool, osea quitando codigo innecesario ya que la pool se encarga de cargar y de liberar las conexiobnes cuando ya no se usan
 
-function registrar(nombre, email, password) {
+
+function registrar(nombre, email, contraseña) {
   var conexion;
   return regeneratorRuntime.async(function registrar$(_context) {
     while (1) {
@@ -24,7 +25,7 @@ function registrar(nombre, email, password) {
           conexion = _context.sent;
           _context.prev = 3;
           _context.next = 6;
-          return regeneratorRuntime.awrap(conexion.query('INSERT INTO usuarios (nombre, email, contraseña) VALUES (?, ?, ?)', [nombre, email, password]));
+          return regeneratorRuntime.awrap(conexion.query('INSERT INTO usuarios (nombre, email, contraseña) VALUES (?, ?, ?)', [nombre, email, contraseña]));
 
         case 6:
           console.log('Usuario insertado correctamente');
@@ -38,18 +39,13 @@ function registrar(nombre, email, password) {
           throw _context.t0;
 
         case 13:
-          _context.prev = 13;
-          // Liberar la conexión
-          conexion.release();
-          return _context.finish(13);
-
-        case 16:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[3, 9, 13, 16]]);
-}
+  }, null, null, [[3, 9]]);
+} // Función para obtener un usuario por su nombre de usuario
+
 
 function obtenerPorNombre(nombre) {
   var conexion, _ref, _ref2, results;
@@ -80,18 +76,13 @@ function obtenerPorNombre(nombre) {
           throw _context2.t0;
 
         case 16:
-          _context2.prev = 16;
-          // Liberar la conexión
-          conexion.release();
-          return _context2.finish(16);
-
-        case 19:
         case "end":
           return _context2.stop();
       }
     }
-  }, null, null, [[3, 12, 16, 19]]);
-}
+  }, null, null, [[3, 12]]);
+} // Función para obtener un usuario por su ID
+
 
 function obtenerPorId(id) {
   var conexion, _ref3, _ref4, results;
@@ -122,17 +113,11 @@ function obtenerPorId(id) {
           throw _context3.t0;
 
         case 16:
-          _context3.prev = 16;
-          // Liberar la conexión
-          conexion.release();
-          return _context3.finish(16);
-
-        case 19:
         case "end":
           return _context3.stop();
       }
     }
-  }, null, null, [[3, 12, 16, 19]]);
+  }, null, null, [[3, 12]]);
 }
 
 module.exports = {
