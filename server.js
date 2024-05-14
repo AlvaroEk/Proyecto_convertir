@@ -47,11 +47,12 @@ app.use((err, req, res, next) => {
   res.status(500).send('Algo salió mal');
 });
 
+// Configurar connect-flash
+app.use(flash());
+
 // --------------------------------------------------------------------
 
 // Passport.js
-
-
 
 // Configurar estrategia de autenticación local
 passport.use(new LocalStrategy(
