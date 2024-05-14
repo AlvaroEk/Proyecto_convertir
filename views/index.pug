@@ -2,7 +2,7 @@ extends layout
 
 block content
   .general-contenedor
-    h1 #{title}
+    h1(class='rainbow-text') #{title}
   .container
     form#upload-form(action='/convertir', method='POST', enctype='multipart/form-data')
       label(for='seleccionarImg' class='form-label') Seleccionar imagen:
