@@ -38,7 +38,6 @@ async function convertirImagen(req, res) {
     } else {
       buffer = await sharp(req.file.buffer).toFormat(formatoDestino).toBuffer();
     }
-    
 
     // Insertar un registro en la base de datos
     await insertarRegistro(req.file.originalname, `imagen_convertida.${formatoDestino}`, formatoDestino);
