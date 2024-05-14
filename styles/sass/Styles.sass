@@ -1,64 +1,233 @@
-// Variables
-$font-family: Arial, sans-serif
-$primary-color: navy
-$accent-color: #4CAF50
-$background-color: #f0f0f0
-$border-radius: 5px
-$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+body 
+  font-family: "Noto Sans", sans-serif
+  margin: 0
+  padding: 0
+  background-color: #EFEFEF
 
-.body 
-  font-family: $font-family
-  margin: 20px
-  background-color: $background-color
+
+nav 
+  display: flex
+  justify-content: space-between
+  align-items: center
+  background-color: #6CF6F9
+  padding: 5px 0
+  text-align: center
+
+nav ul 
+  display: flex
+  list-style-type: none
+  margin-left: auto
+  padding: 0
+
+nav ul li 
+  font-size: 2rem
+  display: inline-block
+  margin-right: 20px
+
+nav ul li a 
+  display: flex
+  color: #6E97F7
+  text-decoration: none
+  font-weight: bold
+  padding: 5px 10px
+  border-radius: 20px
+  transition: background-color 0.3s
+
+nav ul li a:hover 
+  background-color: #2EEAE8
+
+
+i 
+  vertical-align: middle
+
+
+@keyframes rainbow
+  0%
+    color: red
+  16.666%
+    color: orange
+  33.333%
+    color: yellow
+  50%
+    color: green
+  66.666%
+    color: blue
+  83.333%
+    color: indigo
+  100%
+    color: violet
+
+.rainbow-text 
+  font-size: 3rem
+  text-align: center
+  animation: rainbow 3s infinite
 
 
 h1 
+  font-size: 3rem
   text-align: center
-  color: $primary-color
+  color: navy
 
-#upload-form
-  max-width: 400px  // Ajusta el ancho máximo según tus necesidades
-  margin: 0 auto  // Centra el formulario horizontalmente
+
+#upload-form 
+  max-width: 500px
+  margin: 0 auto
   padding: 20px
   border: 1px solid #ccc
-  border-radius: 5px
+  background-color: #F1F1F1
+  border-radius: 2rem
 
-// Estilos para los elementos del formulario
-label
-  display: block  // Muestra cada etiqueta en una línea nueva
-  margin-bottom: 10px  // Espacio entre etiquetas
 
-input[type='file'], select
-  width: 100%  // Ocupa todo el ancho disponible
-  padding: 8px  // Espacio interno
-  margin-bottom: 15px  // Espacio entre elementos
+label 
+  display: block
+  margin-bottom: 10px
+
+
+input[type=file], select 
+  width: 100%
+  padding: 8px
+  margin-bottom: 15px
   border: 1px solid #ccc
-  border-radius: 4rem
-  box-sizing: border-box  // Incluye el padding y el borde en el ancho total
-  cursor: pointer  // Cambia el cursor al pasar sobre él
-  background-color: #f0f0f0  // Color de fondo
-  color: #333  // Color del texto
-  font-size: 16px  // Tamaño de fuente
-  font-family: Arial, sans-serif  // Familia de fuente
+  border-radius: 2rem
+  box-sizing: border-box
+  cursor: pointer
+  background-color: #f0f0f0
+  color: #333
+  font-size: 16px
+  font-family: Arial, sans-serif
 
-button[type='submit']
-  background-color: #4CAF50  // Color de fondo
-  color: white  // Color del texto
-  padding: 10px 20px  // Espacio interno
+
+button[type=submit] 
+  background-color: #47FFB6
+  color: white
+  padding: 10px 20px
   border: none
   border-radius: 4px
   cursor: pointer
 
-  &:hover
-    background-color: #45a049  // Color de fondo al pasar el ratón
-
-// Estilos específicos para el select
-select
-  height: 38px  // Altura del select
-
-  // Estilos para las opciones del select
-  option
-    padding: 5px
+button[type=submit]:hover 
+  background-color: #2AEA9E
 
 
+select 
+  height: 38px
+
+select option 
+  padding: 5px
+
+
+.login-container 
+  max-width: 400px
+  margin: 4rem
+  padding: 20px
+  border: 1px solid #ccc
+  border-radius: 3rem
+  background-color: #fff
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  width: 90%
+
+
+.login-form 
+  display: flex
+  flex-direction: column
+  align-items: center
+
+
+.form-group 
+  display: flex
+  justify-content: start
+  width: 100%
+  flex-direction: column
+
+.form-group button 
+  color: white
+  background-color: #6DE7BB
+  border-radius: 20px
+  align-self: center
+
+.form-group button:hover 
+  background-color: #6DE1E7
+
+
+#mostrarContrasena 
+  width: 80px
+  align-self: flex-end
+
+
+.form-label 
+  font-size: 25px
+  margin: 10px 0
+
+
+.form-input 
+  width: 100%
+  padding: 8px
+  font-size: 16px
+  border: 1px solid #48EB8B
+  border-radius: 20px
+  align-self: center
+
+
+.show-password-label 
+  font-size: 12px
+
+
+.submit-button 
+  padding: 10px
+  font-size: 16px
+  color: white
+  border: none
+  border-radius: 20px
+  cursor: pointer
+  margin: 20px
+  width: 100%
+
+
+.register-link 
+  text-decoration: none
+  color: inherit
+  cursor: pointer
+  color: #FFA1AE
+  background-color: transparent
+  font-size: 1.5rem
+  margin-top: 10px
+  text-align: center
+
+
+.register-link:hover
+  color: #F98D8D
+
+
+.parrafo_registro
+  font-size: 1.5rem
+
+.registro-container
+  max-width: 400px
+  margin: 4rem
+  padding: 20px
+  border: 1px solid #ccc
+  border-radius: 3rem
+  background-color: #fff
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  width: 90%
+
+@media screen and (min-width: 769px)
+  .login-container,
+  .registro-container 
+    margin: 20px auto
+    width: 50%
+    max-width: 500px
+
+  .form-label 
+    font-size: 20px
+    margin: 10px 0
+
+  .form-input 
+    width: 100%
 

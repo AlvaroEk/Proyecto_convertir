@@ -1,20 +1,93 @@
-.body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  background-color: #f0f0f0;
+body {
+  font-family: "Noto Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #EFEFEF;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #6CF6F9;
+  padding: 5px 0;
+  text-align: center;
+}
+
+nav ul {
+  display: flex;
+  list-style-type: none;
+  margin-left: auto;
+  padding: 0;
+}
+
+nav ul li {
+  font-size: 2rem;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+nav ul li a {
+  display: flex;
+  color: #6E97F7;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 20px;
+  transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+  background-color: #2EEAE8;
+}
+
+i {
+  vertical-align: middle;
+}
+
+@keyframes rainbow {
+  0% {
+    color: red;
+  }
+  16.666% {
+    color: orange;
+  }
+  33.333% {
+    color: yellow;
+  }
+  50% {
+    color: green;
+  }
+  66.666% {
+    color: blue;
+  }
+  83.333% {
+    color: indigo;
+  }
+  100% {
+    color: violet;
+  }
+}
+
+.rainbow-text {
+  font-size: 3rem;
+  text-align: center;
+  animation: rainbow 3s infinite;
 }
 
 h1 {
+  font-size: 3rem;
   text-align: center;
   color: navy;
 }
 
 #upload-form {
-  max-width: 400px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  background-color: #F1F1F1;
+  border-radius: 2rem;
 }
 
 label {
@@ -22,12 +95,13 @@ label {
   margin-bottom: 10px;
 }
 
-input[type=file], select {
+input[type=file],
+select {
   width: 100%;
   padding: 8px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
-  border-radius: 4rem;
+  border-radius: 2rem;
   box-sizing: border-box;
   cursor: pointer;
   background-color: #f0f0f0;
@@ -37,22 +111,175 @@ input[type=file], select {
 }
 
 button[type=submit] {
-  background-color: #4CAF50;
+  background-color: #47FFB6;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
+
 button[type=submit]:hover {
-  background-color: #45a049;
+  background-color: #2AEA9E;
 }
 
 select {
   height: 38px;
 }
+
 select option {
   padding: 5px;
 }
 
-/*# sourceMappingURL=CSS.css.map */
+.login-container {
+  max-width: 400px;
+  margin: 2rem;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 3rem;
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  flex-direction: column;
+}
+
+.form-group button {
+  color: white;
+  background-color: #6DE7BB;
+  border-radius: 20px;
+  align-self: center;
+}
+
+.form-group button:hover {
+  background-color: #6DE1E7;
+}
+
+#mostrarContrasena {
+  width: 80px;
+  align-self: flex-end;
+}
+
+.form-label {
+  font-size: 25px;
+  margin: 10px 0;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #48EB8B;
+  border-radius: 20px;
+  align-self: center;
+}
+
+.show-password-label {
+  font-size: 12px;
+}
+
+.submit-button {
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin: 20px;
+  width: 100%;
+}
+
+.register-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  color: #FFA1AE;
+  background-color: transparent;
+  font-size: 1.5rem;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.register-link:hover {
+  color: #F98D8D;
+}
+
+.parrafo_registro {
+  font-size: 1.5rem;
+}
+
+.registro-container {
+  max-width: 400px;
+  margin: 2rem;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 3rem;
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+}
+
+/* Estilos para dispositivos móviles */
+@media screen and (max-width: 768px) {
+  .login-container,
+  .registro-container {
+    margin: 20px auto; /* Centra horizontalmente y agrega un margen vertical */
+    width: 90%;
+    max-width: 90%;
+    position: static;
+    transform: none;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    border-radius: 1rem;
+    margin-top: 10%; /* Ajusta el margen superior según sea necesario */
+  }
+
+  .form-label {
+    font-size: 16px; /* Ajusta el tamaño de fuente de las etiquetas */
+    margin: 5px 0; /* Ajusta el margen de las etiquetas */
+  }
+
+  .form-input {
+    width: 100%; /* Ajusta el ancho de los campos de entrada */
+  }
+}
+
+/* Estilos para pantallas más grandes */
+@media screen and (min-width: 769px) {
+  .login-container,
+  .registro-container {
+    margin: 20px auto; /* Centra horizontalmente y agrega un margen vertical */
+    width: 50%; /* Por ejemplo, puedes ajustar el ancho según sea necesario */
+    max-width: 500px; /* Ajusta el ancho máximo según sea necesario */
+  }
+
+  .form-label {
+    font-size: 20px; /* Por ejemplo, ajusta el tamaño de fuente según sea necesario */
+    margin: 10px 0; /* Por ejemplo, ajusta el margen según sea necesario */
+  }
+
+  .form-input {
+    width: 100%; /* Ajusta el ancho de los campos de entrada */
+  }
+}
+
+
