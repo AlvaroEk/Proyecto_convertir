@@ -68,7 +68,6 @@ i {
     color: violet;
   }
 }
-
 .rainbow-text {
   font-size: 3rem;
   text-align: center;
@@ -95,8 +94,7 @@ label {
   margin-bottom: 10px;
 }
 
-input[type=file],
-select {
+input[type=file], select {
   width: 100%;
   padding: 8px;
   margin-bottom: 15px;
@@ -133,7 +131,7 @@ select option {
 
 .login-container {
   max-width: 400px;
-  margin: 2rem;
+  margin: 4rem;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 3rem;
@@ -224,7 +222,7 @@ select option {
 
 .registro-container {
   max-width: 400px;
-  margin: 2rem;
+  margin: 4rem;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 3rem;
@@ -236,7 +234,6 @@ select option {
   width: 90%;
 }
 
-/* Estilos para dispositivos móviles */
 @media screen and (max-width: 768px) {
   .login-container,
   .registro-container {
@@ -263,23 +260,5 @@ select option {
   }
 }
 
-/* Estilos para pantallas más grandes */
-@media screen and (min-width: 769px) {
-  .login-container,
-  .registro-container {
-    margin: 20px auto; /* Centra horizontalmente y agrega un margen vertical */
-    width: 50%; /* Por ejemplo, puedes ajustar el ancho según sea necesario */
-    max-width: 500px; /* Ajusta el ancho máximo según sea necesario */
-  }
 
-  .form-label {
-    font-size: 20px; /* Por ejemplo, ajusta el tamaño de fuente según sea necesario */
-    margin: 10px 0; /* Por ejemplo, ajusta el margen según sea necesario */
-  }
-
-  .form-input {
-    width: 100%; /* Ajusta el ancho de los campos de entrada */
-  }
-}
-
-
+/*# sourceMappingURL=CSS.css.map */

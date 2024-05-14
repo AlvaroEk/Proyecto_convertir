@@ -235,16 +235,24 @@ select option {
   width: 90%;
 }
 
-@media screen and (min-width: 769px) {
+@media screen and (max-width: 768px) {
   .login-container,
 .registro-container {
     margin: 20px auto;
-    width: 50%;
-    max-width: 500px;
+    width: 90%;
+    max-width: 90%;
+    position: static;
+    transform: none;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    border-radius: 1rem;
+    margin-top: 10%;
   }
   .form-label {
-    font-size: 20px;
-    margin: 10px 0;
+    font-size: 16px;
+    margin: 5px 0;
   }
   .form-input {
     width: 100%;
