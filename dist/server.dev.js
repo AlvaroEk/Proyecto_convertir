@@ -57,7 +57,9 @@ app.use(passport.session());
 app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send('Algo salió mal');
-}); // --------------------------------------------------------------------
+}); // Configurar connect-flash
+
+app.use(flash()); // --------------------------------------------------------------------
 // Passport.js
 // Configurar estrategia de autenticación local
 

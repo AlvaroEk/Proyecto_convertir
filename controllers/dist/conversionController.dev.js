@@ -8,7 +8,7 @@ var _require = require('../models/historymodel'),
     insertarRegistro = _require.insertarRegistro;
 
 function convertirImagen(req, res) {
-  var formatoDestino, opciones, buffer;
+  var formatoDestino, opciones, buffer, conversionesRealizadas;
   return regeneratorRuntime.async(function convertirImagen$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
@@ -78,6 +78,27 @@ function convertirImagen(req, res) {
           return regeneratorRuntime.awrap(insertarRegistro(req.file.originalname, "imagen_convertida.".concat(formatoDestino), formatoDestino));
 
         case 19:
+          conversionesRealizadas = req.session.conversionesRealizadas || 0;
+
+          if (req.isAuthenticated()) {
+            _context.next = 27;
+            break;
+          }
+
+          if (!(conversionesRealizadas < 3)) {
+            _context.next = 26;
+            break;
+          }
+
+          conversionesRealizadas++;
+          req.session.conversionesRealizadas = conversionesRealizadas;
+          _context.next = 27;
+          break;
+
+        case 26:
+          return _context.abrupt("return", res.redirect('/login'));
+
+        case 27:
           // Configurar el encabezado Content-Disposition para que el navegador descargue la imagen
           res.set({
             'Content-Type': "image/".concat(formatoDestino),
@@ -87,21 +108,21 @@ function convertirImagen(req, res) {
           }); // Enviar la imagen convertida al cliente
 
           res.send(buffer);
-          _context.next = 27;
+          _context.next = 35;
           break;
 
-        case 23:
-          _context.prev = 23;
+        case 31:
+          _context.prev = 31;
           _context.t0 = _context["catch"](0);
           console.error('Error al convertir la imagen:', _context.t0);
           res.status(500).send('Error interno del servidor');
 
-        case 27:
+        case 35:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 23]]);
+  }, null, null, [[0, 31]]);
 }
 
 module.exports = {
